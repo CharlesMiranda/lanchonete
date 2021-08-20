@@ -2,5 +2,8 @@
 /Users/macbookpro/eclipse-workspace/lanchonete.zip_expanded/lanchonete/src/main/java/health/maida/lanchonete/LanchoneteApplication.java
 /Users/macbookpro/eclipse-workspace/lanchonete.zip_expanded/lanchonete/src/main/java/health/maida/lanchonete/repository/GestorRepository.java
 /Users/macbookpro/eclipse-workspace/lanchonete.zip_expanded/lanchonete/src/main/java/health/maida/lanchonete/controller/GestorController.java
+/Users/macbookpro/eclipse-workspace/lanchonete.zip_expanded/lanchonete/src/main/java/health/maida/lanchonete/repository/ClienteRepository.java
+/Users/macbookpro/eclipse-workspace/lanchonete.zip_expanded/lanchonete/src/main/java/health/maida/lanchonete/entity/Cliente.java
 /Users/macbookpro/eclipse-workspace/lanchonete.zip_expanded/lanchonete/src/main/java/health/maida/lanchonete/utils/Seguranca.java
 /Users/macbookpro/eclipse-workspace/lanchonete.zip_expanded/lanchonete/src/main/java/health/maida/lanchonete/entity/Gestor.java
+/Users/macbookpro/eclipse-workspace/lanchonete.zip_expanded/lanchonete/src/main/java/health/maida/lanchonete/controller/ClienteController.java

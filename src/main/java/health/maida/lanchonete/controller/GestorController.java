@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import exceptions.MeusException;
 import health.maida.lanchonete.entity.Gestor;
 import health.maida.lanchonete.repository.GestorRepository;
 import health.maida.lanchonete.utils.Seguranca;
