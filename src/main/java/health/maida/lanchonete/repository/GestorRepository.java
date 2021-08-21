@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 import health.maida.lanchonete.entity.Gestor;
 
 @Repository
-public interface GestorRepository extends JpaRepository<Gestor, Long> { }
+public interface GestorRepository extends JpaRepository<Gestor, Long> { 
+	
+}

@@ -1,5 +1,7 @@
 package health.maida.lanchonete.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import health.maida.lanchonete.entity.Cliente;
 import health.maida.lanchonete.repository.ClienteRepository;
+import health.maida.lanchonete.utils.Seguranca;
 
 
 
@@ -44,8 +47,19 @@ public class ClienteController {
     @RequestMapping(value = "/cliente", method =  RequestMethod.POST)
     public ResponseEntity<Cliente> Post(@Valid @RequestBody Cliente cliente)
     {
-    	_clienteRepository.save(cliente);
-		return new ResponseEntity<>(cliente, HttpStatus.OK);
+    	
+    	try {
+		    		
+    		cliente.setSenha(Seguranca.criptografarSenha(cliente.getSenha()));
+			_clienteRepository.save(cliente);
+			return new ResponseEntity<>(cliente, HttpStatus.OK);
+			
+    	} catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+    	
     	        
     }
 
@@ -56,13 +70,26 @@ public class ClienteController {
         if(oldCliente.isPresent()){
         	
         	Cliente cliente = oldCliente.get();
-        	cliente.setNome(newCliente.getNome());
-    		cliente.setDataNascimento(newCliente.getDataNascimento());
-    		cliente.setTelefone(newCliente.getTelefone());
+        	
+        	try {
+        		
+	        	cliente.setNome(newCliente.getNome());
+	    		cliente.setDataNascimento(newCliente.getDataNascimento());
+	    		cliente.setTelefone(newCliente.getTelefone());
+	    		cliente.setSenha(Seguranca.criptografarSenha(newCliente.getSenha()));
 		
-			_clienteRepository.save(cliente);
+				_clienteRepository.save(cliente);
+			
+        	} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
         	
             return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
+        	
         }
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

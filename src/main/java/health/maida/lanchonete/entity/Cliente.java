@@ -26,6 +26,9 @@ public class Cliente {
     @Column(nullable = false)
     private String telefone;
     
+    @Column(nullable = false)
+    private String senha;
+    
 
 	public String getNome() {
 		return nome;
@@ -57,6 +60,14 @@ public class Cliente {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }

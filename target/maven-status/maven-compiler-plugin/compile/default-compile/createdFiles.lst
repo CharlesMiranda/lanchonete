@@ -1,4 +1,4 @@
-health/maida/lanchonete/repository/GestorRepository.class
 health/maida/lanchonete/entity/Gestor.class
+health/maida/lanchonete/repository/GestorRepository.class
 health/maida/lanchonete/controller/GestorController.class
 health/maida/lanchonete/LanchoneteApplication.class

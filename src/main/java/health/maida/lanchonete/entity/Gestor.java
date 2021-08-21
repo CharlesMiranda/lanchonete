@@ -53,7 +53,5 @@ public class Gestor {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-    
-    
 
 }
