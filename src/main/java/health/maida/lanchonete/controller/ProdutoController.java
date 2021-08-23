@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +32,8 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "/produto/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Produto> GetById(@PathVariable(value = "id") long id)
+    public ResponseEntity<Produto> GetById(@PathVariable(value = "id") long id, 
+    		@AuthenticationPrincipal UserDetails userDetails)
     {
         Optional<Produto> produto = _produtoRepository.findById(id);
         if(produto.isPresent())
@@ -38,9 +41,10 @@ public class ProdutoController {
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
+    
+    @PreAuthorize("hasRole('GESTOR')")
     @RequestMapping(value = "/produto", method =  RequestMethod.POST)
-    public ResponseEntity<Produto> Post(@Valid @RequestBody Produto produto)
+    public ResponseEntity<Produto> Post(@Valid @RequestBody Produto produto, @AuthenticationPrincipal UserDetails userDetails)
     {
     	//verificando se já existe descricao cadastrada
 		if(_produtoRepository.pesquisarDescricao(produto.getDescricao()).isPresent()) {
@@ -52,8 +56,9 @@ public class ProdutoController {
 	        
     }
 
+    @PreAuthorize("hasRole('GESTOR')")
     @RequestMapping(value = "/produto/{id}", method =  RequestMethod.PUT)
-    public ResponseEntity<Produto> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Produto newProduto)
+    public ResponseEntity<Produto> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Produto newProduto, @AuthenticationPrincipal UserDetails userDetails)
     {
     	//verificando se já existe descricao cadastrada para outro produto
 		if(_produtoRepository.pesquisarDescricaoDiferenteId(newProduto.getDescricao(), id).isPresent()) {
@@ -78,9 +83,9 @@ public class ProdutoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     @RequestMapping(value = "/produto/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id)
+    public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id, @AuthenticationPrincipal UserDetails userDetails)
     {
         Optional<Produto> produto = _produtoRepository.findById(id);
         if(produto.isPresent()){

@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,22 +20,28 @@ import org.springframework.web.bind.annotation.RestController;
 import health.maida.lanchonete.entity.Cliente;
 import health.maida.lanchonete.repository.ClienteRepository;
 import health.maida.lanchonete.utils.Seguranca;
+import lombok.extern.log4j.Log4j2;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 @RestController
+@Log4j2
 public class ClienteController {
 	
 	@Autowired
     private ClienteRepository _clienteRepository;
 
+	@PreAuthorize("hasRole('GESTOR')")
     @RequestMapping(value = "/cliente", method = RequestMethod.GET)
-    public List<Cliente> Get() {
+    public List<Cliente> Get(@AuthenticationPrincipal UserDetails userDetails) {
         return _clienteRepository.findAll();
     }
 
+	@PreAuthorize("hasRole('GESTOR')")
     @RequestMapping(value = "/cliente/{email}", method = RequestMethod.GET)
-    public ResponseEntity<Cliente> GetById(@PathVariable(value = "email") String email)
+    public ResponseEntity<Cliente> GetById(@PathVariable(value = "email") String email, @AuthenticationPrincipal UserDetails userDetails)
     {
     	
         Optional<Cliente> cliente = _clienteRepository.pesquisarPorEmail(email);
@@ -50,7 +57,7 @@ public class ClienteController {
     	
     	try {
 		    		
-    		cliente.setSenha(Seguranca.criptografarSenha(cliente.getSenha()));
+    		cliente.setPassword(Seguranca.criptografarSenha(cliente.getPassword()));
 			_clienteRepository.save(cliente);
 			return new ResponseEntity<>(cliente, HttpStatus.OK);
 			
@@ -63,8 +70,9 @@ public class ClienteController {
     	        
     }
 
+    @PreAuthorize("hasRole('GESTOR')")
     @RequestMapping(value = "/cliente/{email}", method =  RequestMethod.PUT)
-    public ResponseEntity<Cliente> Put(@PathVariable(value = "email") String email, @Valid @RequestBody Cliente newCliente)
+    public ResponseEntity<Cliente> Put(@PathVariable(value = "email") String email, @Valid @RequestBody Cliente newCliente, @AuthenticationPrincipal UserDetails userDetails)
     {
         Optional<Cliente> oldCliente = _clienteRepository.pesquisarPorEmail(email);
         if(oldCliente.isPresent()){
@@ -76,7 +84,8 @@ public class ClienteController {
 	        	cliente.setNome(newCliente.getNome());
 	    		cliente.setDataNascimento(newCliente.getDataNascimento());
 	    		cliente.setTelefone(newCliente.getTelefone());
-	    		cliente.setSenha(Seguranca.criptografarSenha(newCliente.getSenha()));
+	    		cliente.setUsername(newCliente.getUsername());
+	    		cliente.setPassword(Seguranca.criptografarSenha(cliente.getPassword()));
 		
 				_clienteRepository.save(cliente);
 			
@@ -95,8 +104,9 @@ public class ClienteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasRole('GESTOR')")
     @RequestMapping(value = "/cliente/{email}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> Delete(@PathVariable(value = "email") String email)
+    public ResponseEntity<Object> Delete(@PathVariable(value = "email") String email, @AuthenticationPrincipal UserDetails userDetails)
     {
         Optional<Cliente> cliente = _clienteRepository.pesquisarPorEmail(email);
         if(cliente.isPresent()){

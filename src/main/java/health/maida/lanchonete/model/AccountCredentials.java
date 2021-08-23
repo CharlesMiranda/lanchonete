@@ -1,4 +1,4 @@
-package health.maida.lanchonete.jwtme;
+package health.maida.lanchonete.model;
 
 public class AccountCredentials {
 	

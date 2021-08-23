@@ -26,12 +26,12 @@ public class GestorController {
 	@Autowired
     private GestorRepository _gestorRepository;
 
-    @RequestMapping(value = "/gestor", method = RequestMethod.GET)
+    @RequestMapping(value = "/gestor/admin", method = RequestMethod.GET)
     public List<Gestor> Get() {
         return _gestorRepository.findAll();
     }
 
-    @RequestMapping(value = "/gestor/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/gestor/admin/{id}", method = RequestMethod.GET)
     public ResponseEntity<Gestor> GetById(@PathVariable(value = "id") long id)
     {
         Optional<Gestor> gestor = _gestorRepository.findById(id);
@@ -52,7 +52,7 @@ public class GestorController {
         		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
     		}
 
-			gestor.setSenha(Seguranca.criptografarSenha(gestor.getSenha()));
+			gestor.setPassword(Seguranca.criptografarSenha(gestor.getPassword()));
 	
 			_gestorRepository.save(gestor);
 			return new ResponseEntity<>(gestor, HttpStatus.OK);
@@ -64,7 +64,7 @@ public class GestorController {
     	        
     }
 
-    @RequestMapping(value = "/gestor/{id}", method =  RequestMethod.PUT)
+    @RequestMapping(value = "/gestor/admin/{id}", method =  RequestMethod.PUT)
     public ResponseEntity<Gestor> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Gestor newGestor)
     {
         Optional<Gestor> oldGestor = _gestorRepository.findById(id);
@@ -75,7 +75,8 @@ public class GestorController {
         	try {
             	gestor.setNomeEstabelecimento(newGestor.getNomeEstabelecimento());
             	gestor.setEmail(newGestor.getEmail());
-				gestor.setSenha(Seguranca.criptografarSenha(newGestor.getSenha()));
+            	gestor.setUsername(newGestor.getUsername());
+    			gestor.setPassword(Seguranca.criptografarSenha(gestor.getPassword()));
 			
 	        	_gestorRepository.save(gestor);
         	} catch (UnsupportedEncodingException e) {
@@ -92,7 +93,7 @@ public class GestorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/gestor/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/gestor/admin/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id)
     {
         Optional<Gestor> gestor = _gestorRepository.findById(id);
