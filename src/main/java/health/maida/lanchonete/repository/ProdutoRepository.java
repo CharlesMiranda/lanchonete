@@ -15,4 +15,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	
 	@Query("select p from Produto p where p.descricao = ?1 and p.id <> ?2")
     Optional<Produto> pesquisarDescricaoDiferenteId(String descricao, long id);
+	
+	
 }
