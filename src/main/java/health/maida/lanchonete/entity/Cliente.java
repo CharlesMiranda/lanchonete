@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
 import lombok.Data;
@@ -47,6 +48,7 @@ public class Cliente implements UserDetails{
     @Column(nullable = false)
     private String username;
     
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
     

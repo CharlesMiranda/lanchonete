@@ -13,6 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -41,6 +43,7 @@ public class Gestor implements UserDetails{
     @Column(nullable = false)
     private String username;
     
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
     
