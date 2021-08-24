@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +27,14 @@ public class GestorController {
 	@Autowired
     private GestorRepository _gestorRepository;
 
-    @RequestMapping(value = "/gestor/admin", method = RequestMethod.GET)
+	@PreAuthorize("hasAnyRole('GESTOR')")
+    @RequestMapping(value = "/gestor", method = RequestMethod.GET)
     public List<Gestor> Get() {
         return _gestorRepository.findAll();
     }
 
-    @RequestMapping(value = "/gestor/admin/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAnyRole('GESTOR')")
+    @RequestMapping(value = "/gestor/{id}", method = RequestMethod.GET)
     public ResponseEntity<Gestor> GetById(@PathVariable(value = "id") long id)
     {
         Optional<Gestor> gestor = _gestorRepository.findById(id);
@@ -64,7 +67,8 @@ public class GestorController {
     	        
     }
 
-    @RequestMapping(value = "/gestor/admin/{id}", method =  RequestMethod.PUT)
+    @PreAuthorize("hasAnyRole('GESTOR')")
+    @RequestMapping(value = "/gestor/{id}", method =  RequestMethod.PUT)
     public ResponseEntity<Gestor> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Gestor newGestor)
     {
         Optional<Gestor> oldGestor = _gestorRepository.findById(id);
@@ -93,7 +97,8 @@ public class GestorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/gestor/admin/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasAnyRole('GESTOR')")
+    @RequestMapping(value = "/gestor/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id)
     {
         Optional<Gestor> gestor = _gestorRepository.findById(id);
