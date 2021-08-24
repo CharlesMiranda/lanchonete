@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import health.maida.lanchonete.entity.enuns.SituacaoPagamento;
@@ -35,7 +36,7 @@ public class Pedido  implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false)
+	@JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
     
     @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY,
@@ -46,25 +47,124 @@ public class Pedido  implements Serializable{
     private Double valorTotal;
     
     @Column(nullable = false)
-    private Date created_at;
+    private Date createdAt;
 
     @Column(nullable = true)
-    private Date modified_at;
+    private Date modifiedAt;
     
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
 	private SituacaoPedido situacaoPedido;	
     
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
 	private SituacaoPagamento situacaoPagamento;
     
     @Column(nullable = true)
     private String localPagamento;
     
-    @Column(nullable = true)
     @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     Set<FormaPagamento> formasPagamento;
+    
+    
+    public Pedido() {
+    	
+    }
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Set<ItemPedido> getItensPedido() {
+		return itensPedido;
+	}
+
+	public void setItensPedido(Set<ItemPedido> itensPedido) {
+		this.itensPedido = itensPedido;
+	}
+
+	public Double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
+	public SituacaoPedido getSituacaoPedido() {
+		return situacaoPedido;
+	}
+
+	public void setSituacaoPedido(SituacaoPedido situacaoPedido) {
+		this.situacaoPedido = situacaoPedido;
+	}
+	
+	public void setSituacaoPagamentoAberto() {
+		this.situacaoPagamento = SituacaoPagamento.ABERTO;
+	}
+	
+	public void setSituacaoPedidoAguardando() {
+		this.situacaoPedido = SituacaoPedido.AGUARDANDO;
+	}
+	
+	public void setSituacaoPedidoCancelado() {
+		this.situacaoPedido = SituacaoPedido.CANCELADO;
+	}
+
+	public SituacaoPagamento getSituacaoPagamento() {
+		return situacaoPagamento;
+	}
+
+	public void setSituacaoPagamento(SituacaoPagamento situacaoPagamento) {
+		this.situacaoPagamento = situacaoPagamento;
+	}
+
+	public String getLocalPagamento() {
+		return localPagamento;
+	}
+
+	public void setLocalPagamento(String localPagamento) {
+		this.localPagamento = localPagamento;
+	}
+
+	public Set<FormaPagamento> getFormasPagamento() {
+		return formasPagamento;
+	}
+
+	public void setFormasPagamento(Set<FormaPagamento> formasPagamento) {
+		this.formasPagamento = formasPagamento;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	
     
     

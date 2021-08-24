@@ -29,7 +29,7 @@ public class ItemPedido  implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false)
+    @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
     
     @Column(nullable = false)
@@ -40,11 +40,10 @@ public class ItemPedido  implements Serializable{
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pedido_id", nullable = false)
-    @Column(nullable = false)
     private Pedido pedido;
     
     @Column(nullable = false)
-    private Date created_at;
+    private Date createdAt;
 
 	public long getId() {
 		return id;
@@ -86,12 +85,12 @@ public class ItemPedido  implements Serializable{
 		this.pedido = pedido;
 	}
 
-	public Date getCreated_at() {
-		return created_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public static long getSerialversionuid() {

@@ -36,10 +36,10 @@ public class HistoricoCaixa  implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false)
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
     
-    @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY,
+    @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     Set<ItemPedido> itensPedido;
     
@@ -47,10 +47,10 @@ public class HistoricoCaixa  implements Serializable{
     private Double valorTotal;
     
     @Column(nullable = false)
-    private Date created_at;
+    private Date createdAt;
 
     @Column(nullable = true)
-    private Date modified_at;
+    private Date modifiedAt;
     
     @Enumerated(EnumType.ORDINAL)
 	private SituacaoPedido situacaoPedido;	
@@ -61,12 +61,105 @@ public class HistoricoCaixa  implements Serializable{
     @Column(nullable = true)
     private String localPagamento;
     
-    @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY,
+    @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     Set<FormaPagamento> formasPagamento;
     
     @JoinColumn(name = "pedido_id", nullable = false)
-    @Column(nullable = false)
     private Pedido pedido;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Set<ItemPedido> getItensPedido() {
+		return itensPedido;
+	}
+
+	public void setItensPedido(Set<ItemPedido> itensPedido) {
+		this.itensPedido = itensPedido;
+	}
+
+	public Double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
+	public SituacaoPedido getSituacaoPedido() {
+		return situacaoPedido;
+	}
+
+	public void setSituacaoPedido(SituacaoPedido situacaoPedido) {
+		this.situacaoPedido = situacaoPedido;
+	}
+
+	public SituacaoPagamento getSituacaoPagamento() {
+		return situacaoPagamento;
+	}
+
+	public void setSituacaoPagamento(SituacaoPagamento situacaoPagamento) {
+		this.situacaoPagamento = situacaoPagamento;
+	}
+
+	public String getLocalPagamento() {
+		return localPagamento;
+	}
+
+	public void setLocalPagamento(String localPagamento) {
+		this.localPagamento = localPagamento;
+	}
+
+	public Set<FormaPagamento> getFormasPagamento() {
+		return formasPagamento;
+	}
+
+	public void setFormasPagamento(Set<FormaPagamento> formasPagamento) {
+		this.formasPagamento = formasPagamento;
+	}
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+    
+    
 
 }
